@@ -47,6 +47,14 @@ async function run() {
 
     const touristSpotCollection = client.db("skypathDB").collection("touristSpots")
 
+    //all country data paor jnne 
+
+    app.get("/all-spot" , async(req,res)=>{
+      const cursor = touristSpotCollection.find();
+      const result = await cursor.toArray();
+      res.send(result)
+    })
+
 
     //DATA post korar jnne spot gula 
     app.post("/add-spots", async (req, res) => {
@@ -62,6 +70,14 @@ async function run() {
       res.send(spots);
     });
     
+    //  Get spot by ID
+
+    app.get("/spot/:id",async(req,res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await touristSpotCollection.findOne(query)
+      res.send(result)
+    })
 
 
 
